@@ -25,13 +25,11 @@ namespace SMPPTester
                 Console.WriteLine($"sent: {submissionResponseMessageId}");
             }
 
-            var counter = 0;
-
-            foreach (var submit in submits)
+            foreach (var unused in submits)
             {
                 var deliverSm =
-                    smppHelper.WaitForDeliveryReceipt(TimeSpan.FromMinutes(1), submit);
-                Console.WriteLine($"messageNo : {counter++}; status: {deliverSm.MessageState}");
+                    smppHelper.WaitForDeliveryReceipt(TimeSpan.FromMinutes(1));
+                Console.WriteLine($"message: {deliverSm.ReceiptedMessageId} status: {deliverSm.MessageState}");
             }
             Console.WriteLine("finished");
             Console.ReadLine();

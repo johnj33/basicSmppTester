@@ -76,14 +76,16 @@ namespace SMPPTester
             throw new Exception($"Did not receive Submission Response within {timeout}");
         }
 
-        public SmppDeliverSm WaitForDeliveryReceipt(TimeSpan timeout, string id)
+        public SmppDeliverSm WaitForDeliveryReceipt(TimeSpan timeout)
         {
             var timeoutTime = DateTime.UtcNow + timeout;
 
             while (timeoutTime > DateTime.UtcNow)
             {
-                if (_deliveryReceipts.TryTake(out var deliveryReceipt, timeoutTime - DateTime.UtcNow) &&
-                    deliveryReceipt.ReceiptedMessageId == id) return deliveryReceipt;
+                if (_deliveryReceipts.TryTake(out var deliveryReceipt, timeoutTime - DateTime.UtcNow))
+                {
+                   return deliveryReceipt;                    
+                }
             }
 
             throw new Exception($"Did not receive Delivery Receipt within {timeout}");
